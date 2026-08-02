@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>vocabflow — study</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .study-wrap { max-width: 420px; margin: 0 auto; padding: 0.5rem 1.25rem 3rem; }
+  .study-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+  }
+  .study-topbar a { color: var(--cream); text-decoration: none; font-size: 1.2rem; }
+  .progress-pill {
+    color: var(--cream);
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: rgba(247,241,228,0.1);
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+  }
+  .progress-track {
+    height: 4px;
+    background: rgba(247,241,228,0.15);
+    border-radius: 2px;
+    margin-bottom: 1.75rem;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--mustard);
+    transition: width 0.2s ease;
+  }
+  .flip-card {
+    background: var(--mustard);
+    border-radius: 6px;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+  }
+  .flip-card .type-tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--navy-dark);
+    opacity: 0.65;
+    margin-bottom: 0.75rem;
+  }
+  .flip-card .front-word {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    color: var(--navy-dark);
+    text-transform: lowercase;
+  }
+  .flip-card .tap-hint {
+    margin-top: 1rem;
+    font-size: 0.78rem;
+    color: var(--navy-dark);
+    opacity: 0.6;
+  }
+  .flip-card .back-translation {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--navy-dark);
+    margin-bottom: 0.6rem;
+  }
+  .flip-card .back-detail {
+    font-size: 0.85rem;
+    color: var(--navy-dark);
+    opacity: 0.85;
+    margin-top: 0.4rem;
+  }
+  .flip-card .back-example {
+    font-size: 0.85rem;
+    color: var(--navy-dark);
+    opacity: 0.85;
+    font-style: italic;
+    margin-top: 0.9rem;
+  }
+  .study-btn-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+  .btn-outline {
+    flex: 1;
+    background: transparent;
+    color: var(--cream);
+    border: 1px solid rgba(247,241,228,0.35);
+  }
+  .btn-outline:hover { border-color: var(--cream); }
+  .btn-outline:disabled { opacity: 0.35; cursor: not-allowed; }
+  .empty-state { color: var(--cream); text-align: center; padding: 4rem 1rem; }
+  .empty-state a { color: var(--mustard); }
+</style>
+</head>
+<body>
+  <div id="nav-root"></div>
+  <div class="study-wrap">
+    <div id="content"></div>
+  </div>
+  <script type="module" src="js/study.js"></script>
+</body>
+</html>

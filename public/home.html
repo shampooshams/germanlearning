@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>vocabflow — home</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .hero-card { padding: 2rem 1.75rem; margin-top: 0.5rem; }
+  .hero-card .caption { margin-bottom: 0.6rem; }
+  .hero-card .headline { font-size: 1.5rem; line-height: 1.25; }
+  textarea.field-input {
+    resize: vertical;
+    min-height: 160px;
+    font-family: 'Inter', sans-serif;
+    margin-top: 1.25rem;
+  }
+  .counter-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+  }
+  .word-count {
+    color: var(--terracotta);
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+  #extract-btn { width: 100%; margin-top: 1.25rem; }
+</style>
+</head>
+<body>
+  <div id="nav-root"></div>
+
+  <div class="page-wrap">
+    <div class="card hero-card">
+      <p class="caption">paste any german text — a story, a song, an article, anything</p>
+      <h1 class="headline">paste german text.<br>get vocabulary.</h1>
+
+      <textarea class="field-input" id="german-text" placeholder="paste an article, story, or lyrics here..."></textarea>
+      <div class="counter-row">
+        <span class="word-count" id="word-count">0 words</span>
+        <span class="word-count" id="min-hint">paste at least a few sentences for good results</span>
+      </div>
+
+      <p class="error-text" id="error-text"></p>
+
+      <button class="btn btn-primary" id="extract-btn" type="button">extract vocabulary</button>
+    </div>
+  </div>
+
+  <script type="module" src="js/home.js"></script>
+</body>
+</html>

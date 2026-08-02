@@ -1,0 +1,9 @@
+{
+  "name": "vocabflow",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Root package.json exists only so Netlify's build installs serverless-http where netlify/functions/api.js can resolve it. Backend dependencies live in server/package.json.",
+  "dependencies": {
+    "serverless-http": "^3.2.0"
+  }
+}

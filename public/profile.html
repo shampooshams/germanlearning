@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>vocabflow — your progress</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .stats-row {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0 1.5rem;
+  }
+  .stat-card {
+    flex: 1;
+    padding: 1.25rem 1.25rem 1.4rem;
+  }
+  .stat-card .caption { margin-bottom: 0.6rem; }
+  .stat-number {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 2.1rem;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .stat-number .unit { font-size: 0.95rem; font-weight: 600; margin-left: 0.3rem; }
+  .streak-squares { display: flex; gap: 4px; margin-top: 0.75rem; }
+  .streak-squares .sq {
+    width: 16px; height: 16px; border-radius: 2px;
+    background: rgba(28,28,28,0.1);
+  }
+  .streak-squares .sq.filled { background: var(--mustard); }
+  .stat-sub { font-size: 0.78rem; color: #666; margin-top: 0.6rem; }
+
+  .section-card { padding: 1.5rem; margin-bottom: 1.25rem; }
+  .section-card h2 { font-size: 1.05rem; margin-bottom: 1rem; }
+
+  .breakdown-row { margin-bottom: 0.9rem; }
+  .breakdown-label {
+    display: flex; justify-content: space-between;
+    font-size: 0.82rem; font-weight: 600; margin-bottom: 0.3rem;
+  }
+  .breakdown-track { height: 8px; background: rgba(28,28,28,0.08); border-radius: 4px; overflow: hidden; }
+  .breakdown-fill { height: 100%; background: var(--mustard); }
+
+  .activity-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 0.65rem 0; border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+  }
+  .activity-row:last-child { border-bottom: none; }
+  .activity-time { color: var(--terracotta); font-size: 0.75rem; font-weight: 600; white-space: nowrap; margin-left: 1rem; }
+  .empty-note { color: #777; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+  <div id="nav-root"></div>
+  <div class="page-wrap">
+    <div id="content"><p style="color: var(--cream); text-align:center; padding: 3rem 0;">loading your progress...</p></div>
+  </div>
+  <script type="module" src="js/profile.js"></script>
+</body>
+</html>
