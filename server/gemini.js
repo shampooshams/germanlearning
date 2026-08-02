@@ -16,10 +16,10 @@ const wordSchema = {
           gender: { type: SchemaType.STRING, description: '"der", "die", "das" for nouns, or empty string otherwise.' },
           plural: { type: SchemaType.STRING, description: 'Plural form for nouns, or empty string otherwise.' },
           translation: { type: SchemaType.STRING, description: 'Short English translation.' },
-          grammar_note: { type: SchemaType.STRING, description: 'One short, plain-English grammar note relevant to a learner (e.g. case usage, separable prefix, irregular plural, strong/weak verb).' },
+          grammar_note: { type: SchemaType.STRING, description: 'ONE short sentence (max ~12 words), plain-English, e.g. case usage, separable prefix, irregular plural, strong/weak verb.' },
           conjugation_present: { type: SchemaType.STRING, description: 'For verbs only: present tense conjugation as "ich X, du X, er/sie/es X, wir X, ihr X, sie/Sie X". Empty string for nouns/adjectives.' },
-          example_de: { type: SchemaType.STRING, description: 'Short example sentence in German using this word, ideally adapted from the source text.' },
-          example_en: { type: SchemaType.STRING, description: 'English translation of the example sentence.' },
+          example_de: { type: SchemaType.STRING, description: 'ONE short example sentence (under 12 words) in German using this word, ideally adapted from the source text.' },
+          example_en: { type: SchemaType.STRING, description: 'English translation of example_de. Under 12 words.' },
         },
         required: ['type', 'german', 'base_form', 'gender', 'plural', 'translation', 'grammar_note', 'conjugation_present', 'example_de', 'example_en'],
       },
@@ -39,7 +39,7 @@ const model = genAI.getGenerativeModel({
 async function extractVocabulary(germanText) {
   const prompt = `You are a German language teaching assistant. Read the following German text and extract useful vocabulary for a learner: nouns (with correct article/gender and plural), verbs (with present-tense conjugation), and adjectives.
 
-Pick around 10-20 of the most useful/notable words (skip trivial words like articles, pronouns, and common function words). For each word, produce an example sentence in German — prefer adapting a sentence from the source text itself when possible.
+Pick around 8-14 of the most useful/notable words (skip trivial words like articles, pronouns, and common function words). Keep every field brief — this is a quick-reference flashcard, not an essay. For each word, produce a short example sentence in German, ideally adapted from the source text itself.
 
 Text:
 """

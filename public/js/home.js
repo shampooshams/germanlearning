@@ -26,7 +26,13 @@ extractBtn.addEventListener('click', async () => {
   }
 
   extractBtn.disabled = true;
-  extractBtn.textContent = 'extracting...';
+  const loadingMessages = ['reading your text...', 'finding vocabulary...', 'checking grammar...', 'almost done...'];
+  let msgIndex = 0;
+  extractBtn.textContent = loadingMessages[0];
+  const loadingTimer = setInterval(() => {
+    msgIndex = (msgIndex + 1) % loadingMessages.length;
+    extractBtn.textContent = loadingMessages[msgIndex];
+  }, 3000);
 
   try {
     const headers = { 'Content-Type': 'application/json' };
@@ -51,6 +57,7 @@ extractBtn.addEventListener('click', async () => {
   } catch (err) {
     errorText.textContent = err.message || 'something went wrong, please try again.';
   } finally {
+    clearInterval(loadingTimer);
     extractBtn.disabled = false;
     extractBtn.textContent = 'extract vocabulary';
   }
