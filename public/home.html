@@ -100,77 +100,20 @@
     background: linear-gradient(to bottom, var(--navy) 0%, var(--navy) 33%, var(--mustard) 33%, var(--mustard) 66%, var(--terracotta) 66%, var(--terracotta) 100%);
   }
 
-  .chip-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
-  .chip {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 600;
-    background: rgba(28,28,28,0.06);
-    color: var(--ink);
-    border: none;
-    border-radius: 999px;
-    padding: 0.4rem 0.9rem;
-    cursor: pointer;
-  }
-  .chip:hover { background: rgba(28,28,28,0.1); }
-  .chip.active { background: var(--navy); color: var(--cream); }
-
   textarea.field-input {
     resize: vertical;
     min-height: 140px;
     font-family: 'Inter', sans-serif;
   }
 
-  .level-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.75rem;
-    margin-top: 1rem;
-  }
-  .level-group { display: flex; align-items: center; gap: 0.75rem; }
-  .level-btns { display: flex; gap: 0.4rem; }
-  .level-btn {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 600;
-    background: rgba(28,28,28,0.06);
-    color: var(--ink);
-    border: none;
-    border-radius: 999px;
-    padding: 0.35rem 0.85rem;
-    cursor: pointer;
-  }
-  .level-btn:hover { background: rgba(28,28,28,0.1); }
-  .level-btn.active { background: var(--mustard); color: var(--navy-dark); }
-
-  .count-group { text-align: right; font-size: 0.78rem; }
+  .count-row { text-align: right; font-size: 0.78rem; margin-top: 0.75rem; }
   .word-count { color: var(--terracotta); font-weight: 700; }
   .word-hint { color: #555; font-weight: 600; margin-left: 0.35rem; }
 
   #extract-btn { width: 100%; margin-top: 1.5rem; }
 
-  .how-it-works {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    margin-top: 2.5rem;
-  }
-  .step-num { color: var(--terracotta); font-size: 0.78rem; font-weight: 700; margin: 0 0 0.4rem; }
-  .step-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
-    text-transform: lowercase;
-    font-size: 1.15rem;
-    color: var(--ink);
-    margin: 0 0 0.4rem;
-  }
-  .step-copy { font-size: 0.88rem; color: #555; line-height: 1.5; margin: 0; }
-
   @media (max-width: 800px) {
     .hero-grid { grid-template-columns: 1fr; }
-    .how-it-works { grid-template-columns: 1fr; gap: 1.5rem; }
     .page-home .nav-bar { border-radius: 20px; }
   }
 </style>
@@ -202,50 +145,15 @@
     </section>
 
     <section class="card input-card">
-      <p class="caption">start from</p>
-      <div class="chip-row">
-        <button class="chip" data-sample="news" type="button">news report</button>
-        <button class="chip" data-sample="tale" type="button">fairy tale</button>
-        <button class="chip" data-sample="poem" type="button">a poem</button>
-      </div>
-
       <textarea class="field-input" id="german-text" placeholder="paste an article, story, or lyrics here..."></textarea>
 
-      <div class="level-row">
-        <div class="level-group">
-          <span class="caption">level</span>
-          <div class="level-btns">
-            <button class="level-btn" data-level="A1-A2" type="button">A1&ndash;A2</button>
-            <button class="level-btn" data-level="B1" type="button">B1</button>
-            <button class="level-btn" data-level="B2-C1" type="button">B2&ndash;C1</button>
-          </div>
-        </div>
-        <div class="count-group">
-          <span class="word-count" id="word-count">0 words</span>
-          <span class="word-hint" id="word-hint">paste at least a few sentences for good results</span>
-        </div>
+      <div class="count-row">
+        <span class="word-count" id="word-count">0 words</span>
+        <span class="word-hint" id="word-hint">paste at least a few sentences for good results</span>
       </div>
 
       <p class="error-text" id="error-text"></p>
       <button class="btn btn-primary" id="extract-btn" type="button">extract vocabulary</button>
-    </section>
-
-    <section class="how-it-works">
-      <div class="how-step">
-        <p class="step-num">01</p>
-        <h3 class="step-title">paste</h3>
-        <p class="step-copy">any german you are actually reading — an article, a song, a chapter. eight sentences is plenty.</p>
-      </div>
-      <div class="how-step">
-        <p class="step-num">02</p>
-        <h3 class="step-title">choose</h3>
-        <p class="step-copy">a dozen words come back sorted by level, each with gender, plural or conjugation and a short note.</p>
-      </div>
-      <div class="how-step">
-        <p class="step-num">03</p>
-        <h3 class="step-title">keep</h3>
-        <p class="step-copy">save what you want as a deck named after the text, then review it a card at a time.</p>
-      </div>
     </section>
   </div>
 
