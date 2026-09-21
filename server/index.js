@@ -82,8 +82,35 @@ function guestRateLimit(req, res, next) {
   next();
 }
 
+// Groups usage by the same day Google resets Gemini's free-tier quota (midnight Pacific).
+function usageDateKey() {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Los_Angeles' }).format(new Date());
+}
+
+async function recordExtractionAttempt(succeeded) {
+  const ref = admin.firestore().collection('usage').doc(usageDateKey());
+  const update = { attempts: admin.firestore.FieldValue.increment(1) };
+  update[succeeded ? 'succeeded' : 'failed'] = admin.firestore.FieldValue.increment(1);
+  try {
+    await ref.set(update, { merge: true });
+  } catch (err) {
+    console.error('failed to record extraction usage:', err.message);
+  }
+}
+
 app.get('/api/health', (req, res) => {
   res.json({ ok: true });
+});
+
+app.get('/api/usage', async (req, res) => {
+  const date = usageDateKey();
+  try {
+    const doc = await admin.firestore().collection('usage').doc(date).get();
+    const data = doc.exists ? doc.data() : { attempts: 0, succeeded: 0, failed: 0 };
+    res.json({ date, attempts: 0, succeeded: 0, failed: 0, ...data });
+  } catch (err) {
+    res.status(500).json({ error: 'could not read usage stats' });
+  }
 });
 
 app.get('/api/whoami', requireAuth, (req, res) => {
@@ -100,9 +127,11 @@ app.post('/api/extract', optionalAuth, guestRateLimit, async (req, res) => {
   }
   try {
     const result = await extractVocabulary(text);
+    await recordExtractionAttempt(true);
     res.json(result);
   } catch (err) {
     console.error('extract error:', err.message);
+    await recordExtractionAttempt(false);
     if (err.message && err.message.includes('429')) {
       return res.status(429).json({
         error: 'the AI service has hit its daily free usage limit. please try again later, or ask the site owner to upgrade the Gemini API plan.',
