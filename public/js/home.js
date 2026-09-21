@@ -1,7 +1,6 @@
-import { getOptionalUser, renderNav } from "./nav.js";
+import { renderNav } from "./nav.js";
 
-const user = await getOptionalUser();
-renderNav('home', user);
+renderNav('home');
 
 const textarea = document.getElementById('german-text');
 const wordCount = document.getElementById('word-count');
@@ -24,9 +23,9 @@ function updateWordCount() {
   } else if (count < 20) {
     wordHint.textContent = 'a bit more text will give better results';
   } else if (count <= 150) {
-    wordHint.textContent = 'good length — go ahead';
+    wordHint.textContent = 'good length, go ahead';
   } else {
-    wordHint.textContent = 'long text — extraction may take a little longer';
+    wordHint.textContent = 'long text, extraction may take a little longer';
   }
 }
 
@@ -52,13 +51,9 @@ extractBtn.addEventListener('click', async () => {
   }, 3000);
 
   try {
-    const headers = { 'Content-Type': 'application/json' };
-    if (user) {
-      headers.Authorization = `Bearer ${await user.getIdToken()}`;
-    }
     const res = await fetch('/api/extract', {
       method: 'POST',
-      headers,
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text, level: DEFAULT_LEVEL }),
     });
     const data = await res.json();
