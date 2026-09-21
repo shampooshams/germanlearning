@@ -134,6 +134,9 @@ h1, h2, h3, .headline {
   font-size: 1.1rem;
   text-decoration: none;
 }
+.nav-brand-accent {
+  color: var(--mustard);
+}
 .nav-links {
   display: flex;
   align-items: center;

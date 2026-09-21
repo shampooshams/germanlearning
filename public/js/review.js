@@ -1,12 +1,6 @@
-import { getOptionalUser, renderNav } from "./nav.js";
-import { db } from "./firebase-init.js";
-import {
-  collection, writeBatch, doc, serverTimestamp,
-} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
-import { recordActivity } from "./activity.js";
+import { renderNav } from "./nav.js";
 
-const user = await getOptionalUser();
-renderNav('home', user);
+renderNav('home');
 
 const content = document.getElementById('content');
 const stored = sessionStorage.getItem('vocabflow_extraction');
@@ -20,7 +14,7 @@ if (!stored) {
   `;
 } else {
   const { words } = JSON.parse(stored);
-  renderReview(words, user);
+  renderReview(words);
 }
 
 function escapeHtml(str) {
@@ -32,31 +26,25 @@ function escapeHtml(str) {
 function renderWordRow(w) {
   return `
     <div class="word-row">
-      <input type="checkbox" class="word-checkbox" data-idx="${w._idx}" checked>
-      <div>
-        <div class="word-main">${escapeHtml(w.german)} &mdash; ${escapeHtml(w.translation)}</div>
-        ${w.plural ? `<div class="word-plural">plural: ${escapeHtml(w.plural)}</div>` : ''}
-        ${w.conjugation_present ? `<div class="word-conj">${escapeHtml(w.conjugation_present)}</div>` : ''}
-        ${w.grammar_note ? `<div class="word-note">${escapeHtml(w.grammar_note)}</div>` : ''}
-        <div class="word-example">
-          "${escapeHtml(w.example_de)}"
-          <span class="en">${escapeHtml(w.example_en)}</span>
-        </div>
+      <div class="word-badges">
+        ${w.level ? `<span class="badge badge-level">${escapeHtml(w.level)}</span>` : ''}
+        <span class="badge badge-type">${escapeHtml(w.type)}</span>
+      </div>
+      <div class="word-main">${escapeHtml(w.german)}: ${escapeHtml(w.translation)}</div>
+      ${w.plural ? `<div class="word-plural">plural: ${escapeHtml(w.plural)}</div>` : ''}
+      ${w.conjugation_present ? `<div class="word-conj">${escapeHtml(w.conjugation_present)}</div>` : ''}
+      ${w.grammar_note ? `<div class="word-note">${escapeHtml(w.grammar_note)}</div>` : ''}
+      <div class="word-example">
+        "${escapeHtml(w.example_de)}"
+        <span class="en">${escapeHtml(w.example_en)}</span>
       </div>
     </div>
   `;
 }
 
-function updateSelectedCount() {
-  const total = document.querySelectorAll('.word-checkbox').length;
-  const checked = document.querySelectorAll('.word-checkbox:checked').length;
-  document.getElementById('selected-count').textContent = `${checked} of ${total} selected`;
-}
-
-function renderReview(words, user) {
+function renderReview(words) {
   const groups = { noun: [], verb: [], adjective: [] };
-  words.forEach((w, i) => {
-    w._idx = i;
+  words.forEach((w) => {
     if (!groups[w.type]) groups[w.type] = [];
     groups[w.type].push(w);
   });
@@ -75,69 +63,11 @@ function renderReview(words, user) {
     html += list.map(renderWordRow).join('');
   }
 
-  const saveLabel = user ? 'save flashcards' : 'sign in to save flashcards';
   html += `
-      <p class="error-text" id="save-error"></p>
-      <div class="review-footer">
-        <span class="selected-count" id="selected-count"></span>
-        <button class="btn btn-primary" id="save-btn" type="button">${saveLabel}</button>
+      <div class="review-more">
+        <a href="home.html" class="link-terracotta">paste more text &rarr;</a>
       </div>
     </div>
   `;
   content.innerHTML = html;
-
-  updateSelectedCount();
-  content.querySelectorAll('.word-checkbox').forEach((cb) => {
-    cb.addEventListener('change', updateSelectedCount);
-  });
-
-  document.getElementById('save-btn').addEventListener('click', () => {
-    if (!user) {
-      window.location.href = 'login.html?returnTo=review.html';
-      return;
-    }
-    saveSelected(words, user);
-  });
-}
-
-async function saveSelected(words, user) {
-  const saveBtn = document.getElementById('save-btn');
-  const errorText = document.getElementById('save-error');
-  const checkedIdxs = Array.from(document.querySelectorAll('.word-checkbox:checked')).map((cb) => Number(cb.dataset.idx));
-
-  errorText.textContent = '';
-  if (!checkedIdxs.length) {
-    errorText.textContent = 'select at least one word to save.';
-    return;
-  }
-
-  saveBtn.disabled = true;
-  saveBtn.textContent = 'saving...';
-
-  try {
-    const batch = writeBatch(db);
-    const flashcardsRef = collection(db, 'users', user.uid, 'flashcards');
-    checkedIdxs.forEach((idx) => {
-      const { _idx, ...wordData } = words[idx];
-      const ref = doc(flashcardsRef);
-      batch.set(ref, {
-        ...wordData,
-        addedAt: serverTimestamp(),
-        timesReviewed: 0,
-        lastReviewed: null,
-        known: false,
-      });
-    });
-    await batch.commit();
-    await recordActivity(user.uid, {
-      action: 'saved_words',
-      detail: `saved ${checkedIdxs.length} word${checkedIdxs.length === 1 ? '' : 's'} to flashcards`,
-    });
-    sessionStorage.removeItem('vocabflow_extraction');
-    window.location.href = 'study.html';
-  } catch (err) {
-    errorText.textContent = `could not save flashcards: ${err.message}`;
-    saveBtn.textContent = 'save flashcards';
-    saveBtn.disabled = false;
-  }
 }

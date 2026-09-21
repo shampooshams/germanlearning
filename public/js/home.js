@@ -1,21 +1,37 @@
-import { getOptionalUser, renderNav } from "./nav.js";
+import { renderNav } from "./nav.js";
 
-const user = await getOptionalUser();
-renderNav('home', user);
+renderNav('home');
 
 const textarea = document.getElementById('german-text');
 const wordCount = document.getElementById('word-count');
+const wordHint = document.getElementById('word-hint');
 const extractBtn = document.getElementById('extract-btn');
 const errorText = document.getElementById('error-text');
+
+const DEFAULT_LEVEL = 'A1-A2';
 
 function countWords(str) {
   const trimmed = str.trim();
   return trimmed ? trimmed.split(/\s+/).length : 0;
 }
 
-textarea.addEventListener('input', () => {
-  wordCount.textContent = `${countWords(textarea.value)} words`;
-});
+function updateWordCount() {
+  const count = countWords(textarea.value);
+  wordCount.textContent = `${count} words`;
+  if (count === 0) {
+    wordHint.textContent = 'paste at least a few sentences for good results';
+  } else if (count < 20) {
+    wordHint.textContent = 'a bit more text will give better results';
+  } else if (count <= 150) {
+    wordHint.textContent = 'good length, go ahead';
+  } else {
+    wordHint.textContent = 'long text, extraction may take a little longer';
+  }
+}
+
+updateWordCount();
+
+textarea.addEventListener('input', updateWordCount);
 
 extractBtn.addEventListener('click', async () => {
   const text = textarea.value.trim();
@@ -35,14 +51,10 @@ extractBtn.addEventListener('click', async () => {
   }, 3000);
 
   try {
-    const headers = { 'Content-Type': 'application/json' };
-    if (user) {
-      headers.Authorization = `Bearer ${await user.getIdToken()}`;
-    }
     const res = await fetch('/api/extract', {
       method: 'POST',
-      headers,
-      body: JSON.stringify({ text }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text, level: DEFAULT_LEVEL }),
     });
     const data = await res.json();
     if (!res.ok) {

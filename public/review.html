@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>vocabflow — vocabulary found</title>
+<title>easyypeasyyGerman - vocabulary found</title>
 <link rel="stylesheet" href="css/style.css">
 <style>
   .review-header {
@@ -28,18 +28,21 @@
   }
   .section-label:first-of-type { margin-top: 0.25rem; }
   .word-row {
-    display: flex;
-    gap: 0.75rem;
     padding: 0.9rem 0;
     border-bottom: 1px solid var(--border);
   }
-  .word-row input[type="checkbox"] {
-    margin-top: 0.3rem;
-    width: 17px;
-    height: 17px;
-    accent-color: var(--mustard-dark);
-    flex-shrink: 0;
+  .word-badges { display: flex; gap: 0.4rem; margin-bottom: 0.4rem; }
+  .badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.18rem 0.5rem;
+    border-radius: 3px;
   }
+  .badge-level { background: var(--mustard); color: var(--navy-dark); }
+  .badge-type { background: rgba(28,28,28,0.08); color: #444; }
   .word-main { font-weight: 700; font-size: 1rem; }
   .word-translation { font-weight: 500; color: #4a4a4a; }
   .word-plural { font-size: 0.78rem; color: #6a6a6a; margin-top: 0.15rem; }
@@ -47,20 +50,7 @@
   .word-example { font-size: 0.85rem; color: var(--terracotta); margin-top: 0.4rem; font-style: italic; }
   .word-example .en { color: #6a6a6a; font-style: normal; display: block; margin-top: 0.15rem; }
   .word-conj { font-size: 0.78rem; color: #444; margin-top: 0.35rem; }
-
-  .review-footer {
-    position: sticky;
-    bottom: 0;
-    background: var(--cream);
-    padding: 1rem 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid var(--border);
-    margin: 0 -1.5rem -1.75rem;
-    border-radius: 0 0 4px 4px;
-  }
-  .selected-count { font-size: 0.85rem; color: #444; font-weight: 600; }
+  .review-more { text-align: center; margin-top: 1.5rem; }
   .empty-state { color: var(--cream); text-align: center; padding: 3rem 1rem; }
   .empty-state a { color: var(--mustard); }
 </style>
