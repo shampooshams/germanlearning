@@ -103,6 +103,11 @@ app.post('/api/extract', optionalAuth, guestRateLimit, async (req, res) => {
     res.json(result);
   } catch (err) {
     console.error('extract error:', err.message);
+    if (err.message && err.message.includes('429')) {
+      return res.status(429).json({
+        error: 'the AI service has hit its daily free usage limit. please try again later, or ask the site owner to upgrade the Gemini API plan.',
+      });
+    }
     res.status(502).json({ error: 'vocabulary extraction failed, please try again' });
   }
 });
