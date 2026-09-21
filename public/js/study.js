@@ -38,6 +38,7 @@ function escapeHtml(str) {
 function render() {
   const card = cards[index];
   const typeLabel = { noun: 'noun', verb: 'verb', adjective: 'adjective' }[card.type] || card.type;
+  const typeTag = card.level ? `${card.level} · ${typeLabel}` : typeLabel;
   const progressPct = Math.round(((index + 1) / cards.length) * 100);
 
   content.innerHTML = `
@@ -49,14 +50,14 @@ function render() {
 
     <div class="flip-card" id="flip-card">
       ${flipped ? `
-        <div class="type-tag">${typeLabel}</div>
+        <div class="type-tag">${typeTag}</div>
         <div class="back-translation">${escapeHtml(card.translation)}</div>
         ${card.plural ? `<div class="back-detail">plural: ${escapeHtml(card.plural)}</div>` : ''}
         ${card.conjugation_present ? `<div class="back-detail">${escapeHtml(card.conjugation_present)}</div>` : ''}
         ${card.grammar_note ? `<div class="back-detail">${escapeHtml(card.grammar_note)}</div>` : ''}
         <div class="back-example">"${escapeHtml(card.example_de)}"<br>${escapeHtml(card.example_en)}</div>
       ` : `
-        <div class="type-tag">${typeLabel}</div>
+        <div class="type-tag">${typeTag}</div>
         <div class="front-word">${escapeHtml(card.german)}</div>
         <div class="tap-hint">tap to flip</div>
       `}

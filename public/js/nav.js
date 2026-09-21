@@ -48,7 +48,7 @@ export function renderNav(activePage, user) {
 
   root.innerHTML = `
     <div class="nav-bar">
-      <a class="nav-brand" href="home.html">vocabflow</a>
+      <a class="nav-brand" href="home.html">easyy<wbr>peasyy<span class="nav-brand-accent">German</span></a>
       <div class="nav-links">
         ${links.map(l => `<a href="${l.href}" class="nav-link ${activePage === l.id ? 'active' : ''}">${l.label}</a>`).join('')}
         ${authAction}

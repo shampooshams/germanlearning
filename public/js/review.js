@@ -34,6 +34,10 @@ function renderWordRow(w) {
     <div class="word-row">
       <input type="checkbox" class="word-checkbox" data-idx="${w._idx}" checked>
       <div>
+        <div class="word-badges">
+          ${w.level ? `<span class="badge badge-level">${escapeHtml(w.level)}</span>` : ''}
+          <span class="badge badge-type">${escapeHtml(w.type)}</span>
+        </div>
         <div class="word-main">${escapeHtml(w.german)} &mdash; ${escapeHtml(w.translation)}</div>
         ${w.plural ? `<div class="word-plural">plural: ${escapeHtml(w.plural)}</div>` : ''}
         ${w.conjugation_present ? `<div class="word-conj">${escapeHtml(w.conjugation_present)}</div>` : ''}

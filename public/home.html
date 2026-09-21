@@ -3,50 +3,250 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>vocabflow — home</title>
+<title>easyypeasyyGerman — home</title>
 <link rel="stylesheet" href="css/style.css">
 <style>
-  .hero-card { padding: 2rem 1.75rem; margin-top: 0.5rem; }
-  .hero-card .caption { margin-bottom: 0.6rem; }
-  .hero-card .headline { font-size: 1.5rem; line-height: 1.25; }
+  body.page-home { background: var(--cream); }
+
+  .page-home .nav-bar {
+    background: var(--mustard);
+    max-width: 1080px;
+    margin: 1.25rem auto 0;
+    padding: 0.6rem 1.5rem;
+    border-radius: 999px;
+  }
+  .page-home .nav-brand,
+  .page-home .nav-link { color: var(--navy-dark); }
+  .page-home .nav-brand-accent { color: #fff; }
+  .page-home .nav-link:hover { color: var(--navy); }
+  .page-home .nav-link.active { color: var(--navy-dark); text-decoration: underline; }
+  .page-home .nav-signout { color: var(--terracotta); }
+
+  .landing-wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 1.5rem 1.25rem 4rem;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-pitch { background: var(--navy); padding: 2.25rem 2rem; }
+  .hero-pitch .caption { color: var(--terracotta); margin-bottom: 0.85rem; }
+  .hero-heading {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    text-transform: none;
+    letter-spacing: -0.01em;
+    font-size: 2.1rem;
+    line-height: 1.2;
+    color: var(--cream);
+    margin: 0 0 1rem;
+  }
+  .hero-heading .accent { color: var(--mustard); }
+  .hero-copy {
+    color: rgba(247,241,228,0.78);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .hero-preview { background: var(--terracotta); padding: 1.75rem 1.5rem; display: flex; flex-direction: column; }
+  .hero-preview .caption-light { color: rgba(255,255,255,0.85); margin-bottom: 0.85rem; }
+
+  .preview-word-card {
+    background: var(--cream);
+    border-radius: 4px;
+    padding: 1.1rem 1.25rem 1.25rem;
+  }
+  .word-badges { display: flex; gap: 0.4rem; margin-bottom: 0.7rem; }
+  .badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.2rem 0.55rem;
+    border-radius: 3px;
+  }
+  .badge-level { background: var(--mustard); color: var(--navy-dark); }
+  .badge-type { background: rgba(28,28,28,0.08); color: #444; }
+  .preview-german {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--navy-dark);
+    margin-bottom: 0.25rem;
+  }
+  .preview-translation { font-size: 0.88rem; color: #4a4a4a; margin-bottom: 0.75rem; }
+  .preview-example { font-size: 0.88rem; font-style: italic; color: var(--navy-dark); margin: 0; }
+
+  .hero-preview-note {
+    color: rgba(255,255,255,0.85);
+    font-size: 0.8rem;
+    margin: 0.9rem 0 0;
+  }
+
+  .input-card { position: relative; padding: 1.75rem 1.75rem 1.75rem 2.1rem; overflow: hidden; }
+  .input-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 6px;
+    background: linear-gradient(to bottom, var(--navy) 0%, var(--navy) 33%, var(--mustard) 33%, var(--mustard) 66%, var(--terracotta) 66%, var(--terracotta) 100%);
+  }
+
+  .chip-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+  .chip {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: rgba(28,28,28,0.06);
+    color: var(--ink);
+    border: none;
+    border-radius: 999px;
+    padding: 0.4rem 0.9rem;
+    cursor: pointer;
+  }
+  .chip:hover { background: rgba(28,28,28,0.1); }
+  .chip.active { background: var(--navy); color: var(--cream); }
+
   textarea.field-input {
     resize: vertical;
-    min-height: 160px;
+    min-height: 140px;
     font-family: 'Inter', sans-serif;
-    margin-top: 1.25rem;
   }
-  .counter-row {
+
+  .level-row {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    margin-top: 0.5rem;
+    gap: 0.75rem;
+    margin-top: 1rem;
   }
-  .word-count {
-    color: var(--terracotta);
+  .level-group { display: flex; align-items: center; gap: 0.75rem; }
+  .level-btns { display: flex; gap: 0.4rem; }
+  .level-btn {
+    font-family: 'Inter', sans-serif;
     font-size: 0.78rem;
     font-weight: 600;
+    background: rgba(28,28,28,0.06);
+    color: var(--ink);
+    border: none;
+    border-radius: 999px;
+    padding: 0.35rem 0.85rem;
+    cursor: pointer;
   }
-  #extract-btn { width: 100%; margin-top: 1.25rem; }
+  .level-btn:hover { background: rgba(28,28,28,0.1); }
+  .level-btn.active { background: var(--mustard); color: var(--navy-dark); }
+
+  .count-group { text-align: right; font-size: 0.78rem; }
+  .word-count { color: var(--terracotta); font-weight: 700; }
+  .word-hint { color: #555; font-weight: 600; margin-left: 0.35rem; }
+
+  #extract-btn { width: 100%; margin-top: 1.5rem; }
+
+  .how-it-works {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 2.5rem;
+  }
+  .step-num { color: var(--terracotta); font-size: 0.78rem; font-weight: 700; margin: 0 0 0.4rem; }
+  .step-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    text-transform: lowercase;
+    font-size: 1.15rem;
+    color: var(--ink);
+    margin: 0 0 0.4rem;
+  }
+  .step-copy { font-size: 0.88rem; color: #555; line-height: 1.5; margin: 0; }
+
+  @media (max-width: 800px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .how-it-works { grid-template-columns: 1fr; gap: 1.5rem; }
+    .page-home .nav-bar { border-radius: 20px; }
+  }
 </style>
 </head>
-<body>
+<body class="page-home">
   <div id="nav-root"></div>
 
-  <div class="page-wrap">
-    <div class="card hero-card">
-      <p class="caption">paste any german text — a story, a song, an article, anything</p>
-      <h1 class="headline">paste german text.<br>get vocabulary.</h1>
+  <div class="landing-wrap">
+    <section class="hero-grid">
+      <div class="card hero-pitch">
+        <p class="caption">german in, vocabulary out</p>
+        <h1 class="hero-heading">German articles<br><span class="accent">made easy</span></h1>
+        <p class="hero-copy">easyy peasyy German would like to help you learn German vocab from articles faster. just paste any German text here and you will learn a lot of new vocabulary — each word comes back with its gender, plural or conjugation and an example sentence from your own text.</p>
+      </div>
+
+      <div class="card hero-preview">
+        <p class="caption caption-light">what comes back</p>
+        <div class="preview-word-card">
+          <div class="word-badges">
+            <span class="badge badge-level">A2</span>
+            <span class="badge badge-type">noun</span>
+          </div>
+          <div class="preview-german">der Brunnen</div>
+          <div class="preview-translation">well, fountain &middot; die Brunnen</div>
+          <p class="preview-example">&ldquo;Die Kugel fiel in den Brunnen.&rdquo;</p>
+        </div>
+        <p class="hero-preview-note">every word keeps the sentence it came from</p>
+      </div>
+    </section>
+
+    <section class="card input-card">
+      <p class="caption">start from</p>
+      <div class="chip-row">
+        <button class="chip" data-sample="news" type="button">news report</button>
+        <button class="chip" data-sample="tale" type="button">fairy tale</button>
+        <button class="chip" data-sample="poem" type="button">a poem</button>
+      </div>
 
       <textarea class="field-input" id="german-text" placeholder="paste an article, story, or lyrics here..."></textarea>
-      <div class="counter-row">
-        <span class="word-count" id="word-count">0 words</span>
-        <span class="word-count" id="min-hint">paste at least a few sentences for good results</span>
+
+      <div class="level-row">
+        <div class="level-group">
+          <span class="caption">level</span>
+          <div class="level-btns">
+            <button class="level-btn" data-level="A1-A2" type="button">A1&ndash;A2</button>
+            <button class="level-btn" data-level="B1" type="button">B1</button>
+            <button class="level-btn" data-level="B2-C1" type="button">B2&ndash;C1</button>
+          </div>
+        </div>
+        <div class="count-group">
+          <span class="word-count" id="word-count">0 words</span>
+          <span class="word-hint" id="word-hint">paste at least a few sentences for good results</span>
+        </div>
       </div>
 
       <p class="error-text" id="error-text"></p>
-
       <button class="btn btn-primary" id="extract-btn" type="button">extract vocabulary</button>
-    </div>
+    </section>
+
+    <section class="how-it-works">
+      <div class="how-step">
+        <p class="step-num">01</p>
+        <h3 class="step-title">paste</h3>
+        <p class="step-copy">any german you are actually reading — an article, a song, a chapter. eight sentences is plenty.</p>
+      </div>
+      <div class="how-step">
+        <p class="step-num">02</p>
+        <h3 class="step-title">choose</h3>
+        <p class="step-copy">a dozen words come back sorted by level, each with gender, plural or conjugation and a short note.</p>
+      </div>
+      <div class="how-step">
+        <p class="step-num">03</p>
+        <h3 class="step-title">keep</h3>
+        <p class="step-copy">save what you want as a deck named after the text, then review it a card at a time.</p>
+      </div>
+    </section>
   </div>
 
   <script type="module" src="js/home.js"></script>
