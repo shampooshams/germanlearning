@@ -7,8 +7,19 @@ const wordCount = document.getElementById('word-count');
 const wordHint = document.getElementById('word-hint');
 const extractBtn = document.getElementById('extract-btn');
 const errorText = document.getElementById('error-text');
+const levelBtns = document.querySelectorAll('.level-btn');
 
-const DEFAULT_LEVEL = 'A1-A2';
+let selectedLevel = 'A1';
+
+function setLevel(level) {
+  selectedLevel = level;
+  levelBtns.forEach((btn) => btn.classList.toggle('active', btn.dataset.level === level));
+}
+
+setLevel(selectedLevel);
+levelBtns.forEach((btn) => {
+  btn.addEventListener('click', () => setLevel(btn.dataset.level));
+});
 
 function countWords(str) {
   const trimmed = str.trim();
@@ -54,7 +65,7 @@ extractBtn.addEventListener('click', async () => {
     const res = await fetch('/api/extract', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text, level: DEFAULT_LEVEL }),
+      body: JSON.stringify({ text, level: selectedLevel }),
     });
     const data = await res.json();
     if (!res.ok) {
