@@ -90,11 +90,11 @@ app.get('/api/whoami', requireAuth, (req, res) => {
   res.json({ uid: req.user.uid, email: req.user.email });
 });
 
-const VALID_LEVELS = ['A1-A2', 'B1', 'B2-C1'];
+const VALID_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
 app.post('/api/extract', optionalAuth, guestRateLimit, async (req, res) => {
   const text = (req.body.text || '').trim();
-  const level = VALID_LEVELS.includes(req.body.level) ? req.body.level : 'A1-A2';
+  const level = VALID_LEVELS.includes(req.body.level) ? req.body.level : 'A1';
   if (!text) {
     return res.status(400).json({ error: 'text is required' });
   }

@@ -38,18 +38,20 @@ const model = genAI.getGenerativeModel({
 });
 
 const LEVEL_GUIDANCE = {
-  'A1-A2': 'The learner is a beginner (CEFR A1-A2). Favor common, everyday words and skip rare or literary vocabulary; simplify grammar notes accordingly.',
-  'B1': 'The learner is intermediate (CEFR B1). Favor words a bit beyond basic vocabulary, including some common idiomatic or abstract terms.',
-  'B2-C1': 'The learner is advanced (CEFR B2-C1). Favor richer, less common, or nuanced vocabulary, including literary/idiomatic words, and skip overly basic words.',
+  A1: 'The learner is a true beginner (CEFR A1). Only extract the most basic, everyday words: simple concrete nouns, high-frequency verbs (like sein, haben, gehen, machen), and simple descriptive adjectives. Skip anything even slightly advanced, abstract, or idiomatic.',
+  A2: 'The learner is an elementary learner (CEFR A2). Extract common everyday vocabulary a step beyond the absolute basics: routines, simple descriptions, common regular and irregular verbs. Skip literary, abstract, or rare words.',
+  B1: 'The learner is intermediate (CEFR B1). Extract words a bit beyond basic vocabulary, including some common idiomatic or abstract terms, and less common but still everyday verbs and nouns.',
+  B2: 'The learner is upper-intermediate (CEFR B2). Extract richer, less common vocabulary: more nuanced verbs and adjectives, common idiomatic expressions, and moderately abstract nouns. Skip overly basic words.',
+  C1: 'The learner is advanced (CEFR C1). Extract nuanced, less common, or literary/formal vocabulary: idiomatic expressions, subtle synonyms, and abstract or sophisticated terms. Skip anything too basic or commonplace.',
 };
 
 async function extractVocabulary(germanText, level) {
-  const guidance = LEVEL_GUIDANCE[level] || LEVEL_GUIDANCE['A1-A2'];
+  const guidance = LEVEL_GUIDANCE[level] || LEVEL_GUIDANCE.A1;
   const prompt = `You are a German language teaching assistant. Read the following German text and extract useful vocabulary for a learner: nouns (with correct article/gender and plural), verbs (with present-tense conjugation), and adjectives.
 
 ${guidance}
 
-Pick around 8-14 of the most useful/notable words for that target level (skip trivial words like articles, pronouns, and common function words). For each word also give its own CEFR level (the word's real difficulty may differ from the learner's target level). Keep every field brief — this is a quick-reference flashcard, not an essay. For each word, produce a short example sentence in German, ideally adapted from the source text itself.
+Only extract words whose real difficulty matches CEFR level ${level} specifically — skip words that belong to a different level, even if they appear in the text. Extract every word in the text that clearly fits CEFR level ${level}, up to a maximum of 25 words (skip trivial words like articles, pronouns, and common function words regardless of level). If the text only contains a handful of words at this level, return just those — don't invent or pad with words that aren't naturally present in the text. Keep every field brief — this is a quick-reference flashcard, not an essay. For each word, produce a short example sentence in German, ideally adapted from the source text itself.
 
 Text:
 """
